@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DECA Challenge</title>
+
+    <!-- Conecta el diseño -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <div class="logo">DECA</div>
+
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#estaciones">Estaciones</a>
+            <a href="#premios">Premios</a>
+        </nav>
+    </header>
+
+
+    <!-- PÁGINA PRINCIPAL -->
+    <main>
+
+        <section id="inicio" class="hero">
+
+            <h1>DECA Challenge 🎯</h1>
+
+            <p>
+                ¡Participa en las estaciones, acumula puntos
+                y cámbialos por premios!
+            </p>
+
+            <button onclick="mostrarEstaciones()">
+                Comenzar
+            </button>
+
+        </section>
+
+
+        <!-- PUNTOS DEL PARTICIPANTE -->
+        <section class="points-section">
+
+            <h2>Mis puntos</h2>
+
+            <div class="points-card">
+
+                <span id="points">0</span>
+
+                <p>puntos acumulados ⭐</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ESTACIONES -->
+        <section id="estaciones" class="stations">
+
+            <h2>🎮 Estaciones</h2>
+
+            <p>
+                Completa las estaciones para ganar puntos.
+            </p>
+
+            <div class="station-container">
+
+                <!-- ESTACIÓN 1 -->
+                <div class="station-card">
+
+                    <h3>🔐 Escape Room</h3>
+
+                    <p>
+                        Resuelve los retos y escapa antes de que se acabe el tiempo.
+                    </p>
+
+                    <strong>+100 puntos</strong>
+
+                    <button onclick="completarEstacion(100, 'Escape Room')">
+                        Completar
+                    </button>
+
+                </div>
+
+
+                <!-- ESTACIÓN 2 -->
+                <div class="station-card">
+
+                    <h3>🧠 Trivia</h3>
+
+                    <p>
+                        Demuestra cuánto sabes completando la trivia.
+                    </p>
+
+                    <strong>+75 puntos</strong>
+
+                    <button onclick="completarEstacion(75, 'Trivia')">
+                        Completar
+                    </button>
+
+                </div>
+
+
+                <!-- ESTACIÓN 3 -->
+                <div class="station-card">
+
+                    <h3>🎯 Reto de Precisión</h3>
+
+                    <p>
+                        Completa el reto y demuestra tus habilidades.
+                    </p>
+
+                    <strong>+50 puntos</strong>
+
+                    <button onclick="completarEstacion(50, 'Reto de Precisión')">
+                        Completar
+                    </button>
+
+                </div>
+
+
+                <!-- ESTACIÓN 4 -->
+                <div class="station-card">
+
+                    <h3>🤝 Trabajo en Equipo</h3>
+
+                    <p>
+                        Trabaja con tu equipo para completar el desafío.
+                    </p>
+
+                    <strong>+100 puntos</strong>
+
+                    <button onclick="completarEstacion(100, 'Trabajo en Equipo')">
+                        Completar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PREMIOS -->
+        <section id="premios" class="prizes">
+
+            <h2>🎁 Canjea tus puntos</h2>
+
+            <p>
+                Usa los puntos que hayas acumulado para obtener premios.
+            </p>
+
+            <div class="prize-container">
+
+                <div class="prize-card">
+
+                    <h3>🍬 Premio Básico</h3>
+
+                    <p>Un pequeño premio sorpresa.</p>
+
+                    <strong>100 puntos</strong>
+
+                    <button onclick="canjearPremio(100, 'Premio Básico')">
+                        Canjear
+                    </button>
+
+                </div>
+
+
+                <div class="prize-card">
+
+                    <h3>🎉 Premio Especial</h3>
+
+                    <p>Un premio especial de la actividad.</p>
+
+                    <strong>200 puntos</strong>
+
+                    <button onclick="canjearPremio(200, 'Premio Especial')">
+                        Canjear
+                    </button>
+
+                </div>
+
+
+                <div class="prize-card">
+
+                    <h3>🏆 Gran Premio</h3>
+
+                    <p>El premio para quienes acumulen más puntos.</p>
+
+                    <strong>300 puntos</strong>
+
+                    <button onclick="canjearPremio(300, 'Gran Premio')">
+                        Canjear
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MENSAJE -->
+        <section class="message">
+
+            <h2>🔥 ¡Demuestra lo que puedes lograr!</h2>
+
+            <p>
+                Participa, acumula puntos y disfruta de la experiencia.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+
+        <p>
+            © 2026 DECA Challenge | Campaña de Servicio
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+</html>
