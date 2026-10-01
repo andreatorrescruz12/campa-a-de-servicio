@@ -1,22 +1,10 @@
-/* =========================================
-   DECA: RISE TO CHALLENGE
-   SISTEMA DE PUNTOS + 4 MINIJUEGOS
-========================================= */
-
-
-/* =========================================
-   DATOS
-========================================= */
-
 let puntos = Number(localStorage.getItem("puntos")) || 0;
 
 let estacionesCompletadas =
     JSON.parse(localStorage.getItem("estacionesCompletadas")) || [];
 
+actualizarPuntos();
 
-/* =========================================
-   ACTUALIZAR PUNTOS
-========================================= */
 
 function actualizarPuntos() {
 
@@ -26,89 +14,20 @@ function actualizarPuntos() {
         elemento.textContent = puntos;
     }
 
+}
+
+
+function guardarProgreso() {
+
     localStorage.setItem("puntos", puntos);
+
+    localStorage.setItem(
+        "estacionesCompletadas",
+        JSON.stringify(estacionesCompletadas)
+    );
+
 }
 
-actualizarPuntos();
-
-
-/* =========================================
-   IR A ESTACIONES
-========================================= */
-
-function mostrarEstaciones() {
-
-    const estaciones = document.getElementById("estaciones");
-
-    if (estaciones) {
-
-        estaciones.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    }
-}
-
-
-/* =========================================
-   CREAR VENTANA DEL JUEGO
-========================================= */
-
-function crearVentana(titulo, contenido) {
-
-    cerrarJuego();
-
-    const ventana = document.createElement("div");
-
-    ventana.id = "game-window";
-
-    ventana.innerHTML = `
-
-        <div class="game-overlay">
-
-            <div class="game-box">
-
-                <button class="close-game"
-                    onclick="cerrarJuego()">
-                    ✕
-                </button>
-
-                <h2>${titulo}</h2>
-
-                <div id="game-content">
-                    ${contenido}
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-    document.body.appendChild(ventana);
-
-    agregarEstilosJuego();
-}
-
-
-/* =========================================
-   CERRAR JUEGO
-========================================= */
-
-function cerrarJuego() {
-
-    const ventana =
-        document.getElementById("game-window");
-
-    if (ventana) {
-        ventana.remove();
-    }
-}
-
-
-/* =========================================
-   VERIFICAR ESTACIÓN
-========================================= */
 
 function estacionCompletada(nombre) {
 
@@ -117,178 +36,204 @@ function estacionCompletada(nombre) {
 }
 
 
-/* =========================================
-   DAR PUNTOS
-========================================= */
-
-function ganarPuntos(puntosGanados, nombre) {
+function ganarPuntos(nombre, cantidad) {
 
     if (estacionCompletada(nombre)) {
 
         alert(
-            "⚠️ Ya completaste esta estación."
+            "Esta estación ya fue completada. " +
+            "Solo puedes ganar los puntos una vez."
         );
 
-        cerrarJuego();
-
-        return;
+        return false;
     }
 
 
-    puntos += puntosGanados;
+    puntos += cantidad;
 
     estacionesCompletadas.push(nombre);
 
-
-    localStorage.setItem(
-        "puntos",
-        puntos
-    );
-
-    localStorage.setItem(
-        "estacionesCompletadas",
-        JSON.stringify(estacionesCompletadas)
-    );
-
+    guardarProgreso();
 
     actualizarPuntos();
 
+    return true;
+}
+
+
+/* =========================
+   VENTANA DEL JUEGO
+========================= */
+
+function crearVentana(contenido) {
 
     cerrarJuego();
 
+    const ventana = document.createElement("div");
 
-    setTimeout(() => {
+    ventana.id = "game-modal";
 
-        alert(
-            "🎉 ¡RETO COMPLETADO!\n\n" +
-            "+" + puntosGanados + " ⭐\n\n" +
-            "Total: " + puntos + " puntos"
-        );
+    ventana.innerHTML = `
+        <div class="game-box">
 
-    }, 100);
+            <button class="close-game" onclick="cerrarJuego()">
+                ✕
+            </button>
+
+            ${contenido}
+
+        </div>
+    `;
+
+    document.body.appendChild(ventana);
+
+    agregarEstilosJuego();
+}
+
+
+function cerrarJuego() {
+
+    const modal = document.getElementById("game-modal");
+
+    if (modal) {
+        modal.remove();
+    }
 
 }
 
 
-/* =========================================
+/* =========================
    INICIAR JUEGO
-========================================= */
+========================= */
 
 function iniciarJuego(tipo) {
 
-
     if (tipo === "escape") {
-
         escapeRoom();
-
     }
 
-    else if (tipo === "trivia") {
-
+    if (tipo === "trivia") {
         trivia();
-
     }
 
-    else if (tipo === "precision") {
-
+    if (tipo === "precision") {
         precision();
-
     }
 
-    else if (tipo === "team") {
-
+    if (tipo === "team") {
         teamChallenge();
-
     }
 
 }
 
 
-/* =========================================
-   🔐 ESCAPE ROOM
-========================================= */
+/* =========================
+   ESCAPE ROOM
+========================= */
 
 function escapeRoom() {
 
+    if (estacionCompletada("escape")) {
 
-    if (estacionCompletada("Escape Room")) {
-
-        alert(
-            "⚠️ Ya completaste el Escape Room."
-        );
+        alert("🔐 Ya completaste el Escape Room.");
 
         return;
     }
 
 
-    crearVentana(
+    crearVentana(`
 
-        "🔐 Escape Room",
+        <div class="game-header">
 
-        `
+            <span>ESCAPE ROOM</span>
 
-        <p>
-            Tienes 60 segundos para descubrir
-            el código secreto.
-        </p>
+            <div id="escape-timer">
+                90
+            </div>
 
-        <div id="timer">
-            60
         </div>
 
-        <p>
-            Pista:
-            <br>
-            El código tiene 3 números.
-            El segundo número es el doble
-            del primero.
-            El tercero es 1 más que el segundo.
-        </p>
 
-        <input
-            id="escape-answer"
-            type="number"
-            placeholder="Escribe el código"
-        >
+        <div class="game-content">
 
-        <button
-            onclick="verificarEscape()">
-            🔓 ABRIR
-        </button>
+            <div class="game-icon">
+                🔐
+            </div>
 
-        `
+            <h2>Encuentra la salida</h2>
 
-    );
+            <p>
+                Tienes 90 segundos para resolver
+                las pistas y descubrir el código final.
+            </p>
 
 
-    let tiempo = 60;
+            <div id="escape-puzzle">
+
+                <h3>Pista #1</h3>
+
+                <p>
+                    En una competencia DECA hay
+                    <strong>3 elementos</strong> importantes:
+                    conocimiento, estrategia y...
+                </p>
+
+                <div class="answer-buttons">
+
+                    <button onclick="pistaDos()">
+                        Trabajo en equipo
+                    </button>
+
+                    <button onclick="escapeIncorrecto()">
+                        Dormir
+                    </button>
+
+                    <button onclick="escapeIncorrecto()">
+                        Ignorar al equipo
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `);
 
 
-    window.escapeTimer = setInterval(() => {
+    iniciarTimerEscape();
+}
 
-        tiempo--;
 
-        const timer =
-            document.getElementById("timer");
+let escapeTimer;
+let tiempoEscape = 90;
 
+
+function iniciarTimerEscape() {
+
+    tiempoEscape = 90;
+
+    escapeTimer = setInterval(() => {
+
+        tiempoEscape--;
+
+        const timer = document.getElementById("escape-timer");
 
         if (timer) {
-            timer.textContent = tiempo;
+            timer.textContent = tiempoEscape;
         }
 
 
-        if (tiempo <= 0) {
+        if (tiempoEscape <= 0) {
 
-            clearInterval(
-                window.escapeTimer
-            );
+            clearInterval(escapeTimer);
 
             alert(
-                "⏰ Se acabó el tiempo."
+                "⏰ Se acabó el tiempo. " +
+                "¡Inténtalo nuevamente!"
             );
 
             cerrarJuego();
-
         }
 
     }, 1000);
@@ -296,43 +241,107 @@ function escapeRoom() {
 }
 
 
-/* =========================================
-   VERIFICAR ESCAPE ROOM
-========================================= */
+function pistaDos() {
+
+    const puzzle = document.getElementById("escape-puzzle");
+
+    puzzle.innerHTML = `
+
+        <h3>Pista #2</h3>
+
+        <p>
+            Ahora piensa como un mercadólogo.
+            ¿Cuál de estos es parte de las 4 P's?
+        </p>
+
+
+        <div class="answer-buttons">
+
+            <button onclick="pistaTres()">
+                Producto
+            </button>
+
+            <button onclick="escapeIncorrecto()">
+                Personalidad
+            </button>
+
+            <button onclick="escapeIncorrecto()">
+                Popularidad
+            </button>
+
+        </div>
+    `;
+
+}
+
+
+function pistaTres() {
+
+    const puzzle = document.getElementById("escape-puzzle");
+
+    puzzle.innerHTML = `
+
+        <h3>Pista #3</h3>
+
+        <p>
+            Última pista:
+            Si tienes 1 producto, 2 clientes y 3 vendedores,
+            ¿qué número debes usar para abrir la puerta?
+        </p>
+
+        <input
+            id="escape-code"
+            type="number"
+            placeholder="Escribe el código"
+        >
+
+        <button onclick="verificarEscape()">
+            DESBLOQUEAR
+        </button>
+
+        <p class="hint">
+            💡 Pista: 1 - 2 - 3
+        </p>
+    `;
+
+}
+
+
+function escapeIncorrecto() {
+
+    alert(
+        "❌ Esa respuesta no es correcta. " +
+        "Busca otra pista."
+    );
+
+}
+
 
 function verificarEscape() {
 
-
-    const respuesta =
-        document.getElementById(
-            "escape-answer"
-        ).value;
+    const codigo =
+        document.getElementById("escape-code").value;
 
 
-    clearInterval(
-        window.escapeTimer
-    );
+    if (codigo === "123") {
 
+        clearInterval(escapeTimer);
 
-    /*
-        Respuesta:
-        1 - 2 - 3
-    */
+        if (ganarPuntos("escape", 100)) {
 
-    if (respuesta === "123") {
+            alert(
+                "🎉 ¡ESCAPE COMPLETADO!\n\n" +
+                "+100 puntos"
+            );
 
-        ganarPuntos(
-            100,
-            "Escape Room"
-        );
+            cerrarJuego();
+        }
 
-    }
-
-    else {
+    } else {
 
         alert(
-            "❌ Código incorrecto.\n\n" +
-            "Inténtalo nuevamente."
+            "🔒 Código incorrecto.\n" +
+            "¡Sigue buscando!"
         );
 
     }
@@ -340,467 +349,567 @@ function verificarEscape() {
 }
 
 
-/* =========================================
-   🧠 TRIVIA
-========================================= */
+/* =========================
+   TRIVIA
+========================= */
 
 function trivia() {
 
+    if (estacionCompletada("trivia")) {
 
-    if (estacionCompletada("DECA Trivia")) {
-
-        alert(
-            "⚠️ Ya completaste la Trivia."
-        );
+        alert("🧠 Ya completaste la Trivia.");
 
         return;
     }
 
 
-    crearVentana(
+    let pregunta = 1;
 
-        "🧠 DECA Trivia",
 
-        `
+    crearVentana(`
 
-        <p>
-            Responde correctamente las preguntas.
-        </p>
+        <div class="game-header">
 
-        <div class="question">
+            <span>DECA TRIVIA</span>
 
-            <h3>
-                1. ¿Qué significa DECA?
-            </h3>
-
-            <button onclick="respuestaTrivia(1, false)">
-                A. Developing Excellent Career Achievers
-            </button>
-
-            <button onclick="respuestaTrivia(1, true)">
-                B. Distributive Education Clubs of America
-            </button>
-
-            <button onclick="respuestaTrivia(1, false)">
-                C. Developing Economic Career Activities
-            </button>
+            <span id="trivia-number">
+                1 / 3
+            </span>
 
         </div>
 
-        `
 
-    );
+        <div class="game-content">
+
+            <div class="game-icon">
+                🧠
+            </div>
+
+            <h2 id="trivia-question">
+                ¿Qué significa DECA?
+            </h2>
+
+
+            <div id="trivia-options">
+
+                <button onclick="respuestaTrivia(1)">
+                    Distributive Education Clubs of America
+                </button>
+
+                <button onclick="respuestaTrivia(2)">
+                    Development Education Clubs Association
+                </button>
+
+                <button onclick="respuestaTrivia(2)">
+                    Digital Education Competition Association
+                </button>
+
+            </div>
+
+        </div>
+
+    `);
 
 }
 
 
-/* =========================================
-   SEGUNDA PREGUNTA TRIVIA
-========================================= */
+function respuestaTrivia(respuesta) {
 
-function preguntaTrivia2() {
+    if (respuesta !== 1) {
+
+        alert("❌ Incorrecto. Inténtalo otra vez.");
+
+        return;
+    }
 
 
-    document.getElementById(
-        "game-content"
-    ).innerHTML = `
+    const question =
+        document.getElementById("trivia-question");
 
-        <p>
-            Pregunta 2 de 2
-        </p>
+    const options =
+        document.getElementById("trivia-options");
 
-        <div class="question">
+    const number =
+        document.getElementById("trivia-number");
 
-            <h3>
-                ¿Cuál es una habilidad importante
-                en el liderazgo?
-            </h3>
 
-            <button onclick="respuestaFinalTrivia(false)">
-                A. No escuchar a los demás
-            </button>
+    question.textContent =
+        "¿Cuál es una habilidad importante para un líder?";
 
-            <button onclick="respuestaFinalTrivia(true)">
-                B. Comunicación
-            </button>
+    number.textContent = "2 / 3";
 
-            <button onclick="respuestaFinalTrivia(false)">
-                C. Ignorar los problemas
-            </button>
 
-        </div>
+    options.innerHTML = `
+
+        <button onclick="preguntaTriviaTres()">
+            Comunicación
+        </button>
+
+        <button onclick="alert('❌ Incorrecto')">
+            Ignorar opiniones
+        </button>
+
+        <button onclick="alert('❌ Incorrecto')">
+            No escuchar
+        </button>
 
     `;
 
 }
 
 
-/* =========================================
-   RESPUESTA TRIVIA 1
-========================================= */
+function preguntaTriviaTres() {
 
-function respuestaTrivia(numero, correcta) {
+    const question =
+        document.getElementById("trivia-question");
 
+    const options =
+        document.getElementById("trivia-options");
 
-    if (!correcta) {
-
-        alert(
-            "❌ Incorrecto. Intenta nuevamente."
-        );
-
-        return;
-    }
+    const number =
+        document.getElementById("trivia-number");
 
 
-    preguntaTrivia2();
+    question.textContent =
+        "¿Qué representa la letra P en Product?";
 
-}
-
-
-/* =========================================
-   RESPUESTA TRIVIA FINAL
-========================================= */
-
-function respuestaFinalTrivia(correcta) {
+    number.textContent = "3 / 3";
 
 
-    if (!correcta) {
+    options.innerHTML = `
 
-        alert(
-            "❌ Incorrecto. Intenta nuevamente."
-        );
+        <button onclick="finalTrivia()">
+            Producto
+        </button>
 
-        return;
-    }
+        <button onclick="alert('❌ Incorrecto')">
+            Persona
+        </button>
 
+        <button onclick="alert('❌ Incorrecto')">
+            Promoción
+        </button>
 
-    ganarPuntos(
-        75,
-        "DECA Trivia"
-    );
+    `;
 
 }
 
 
-/* =========================================
-   🎯 PRECISION CHALLENGE
-========================================= */
+function finalTrivia() {
 
-function precision() {
-
-
-    if (estacionCompletada(
-        "Precision Challenge"
-    )) {
+    if (ganarPuntos("trivia", 75)) {
 
         alert(
-            "⚠️ Ya completaste este reto."
+            "🎉 ¡TRIVIA COMPLETADA!\n\n" +
+            "+75 puntos"
         );
 
-        return;
+        cerrarJuego();
     }
-
-
-    crearVentana(
-
-        "🎯 Precision Challenge",
-
-        `
-
-        <p>
-            Haz clic en el objetivo
-            5 veces antes de que se acabe
-            el tiempo.
-        </p>
-
-        <div id="precision-game">
-
-            <button
-                id="target"
-                onclick="golpearObjetivo()">
-                🎯
-            </button>
-
-        </div>
-
-        <p>
-            Objetivos:
-            <strong id="hits">0</strong> / 5
-        </p>
-
-        `
-
-    );
-
-
-    moverObjetivo();
 
 }
 
 
-/* =========================================
-   VARIABLES PRECISION
-========================================= */
+/* =========================
+   PRECISION CHALLENGE
+========================= */
 
 let precisionHits = 0;
 
 
-/* =========================================
-   MOVER OBJETIVO
-========================================= */
+function precision() {
 
-function moverObjetivo() {
+    if (estacionCompletada("precision")) {
 
+        alert("🎯 Ya completaste este reto.");
+
+        return;
+    }
+
+
+    precisionHits = 0;
+
+
+    crearVentana(`
+
+        <div class="game-header">
+
+            <span>PRECISION CHALLENGE</span>
+
+            <span id="precision-score">
+                0 / 5
+            </span>
+
+        </div>
+
+
+        <div class="game-content">
+
+            <h2>¡Atrapa el objetivo!</h2>
+
+            <p>
+                Toca el objetivo 5 veces.
+            </p>
+
+
+            <div id="precision-area">
+
+                <button
+                    id="target"
+                    onclick="hitTarget()"
+                >
+                    🎯
+                </button>
+
+            </div>
+
+        </div>
+
+    `);
+
+
+    moverTarget();
+}
+
+
+function moverTarget() {
 
     const target =
         document.getElementById("target");
 
-
-    if (!target) return;
-
-
     const area =
-        document.getElementById(
-            "precision-game"
-        );
+        document.getElementById("precision-area");
+
+
+    if (!target || !area) return;
 
 
     const maxX =
-        area.clientWidth - 60;
-
+        area.clientWidth - 55;
 
     const maxY =
-        area.clientHeight - 60;
-
-
-    const x =
-        Math.random() * maxX;
-
-
-    const y =
-        Math.random() * maxY;
+        area.clientHeight - 55;
 
 
     target.style.left =
-        x + "px";
-
+        Math.random() * maxX + "px";
 
     target.style.top =
-        y + "px";
+        Math.random() * maxY + "px";
 
 }
 
 
-/* =========================================
-   GOLPEAR OBJETIVO
-========================================= */
-
-function golpearObjetivo() {
-
+function hitTarget() {
 
     precisionHits++;
 
 
-    const contador =
-        document.getElementById("hits");
-
-
-    if (contador) {
-
-        contador.textContent =
-            precisionHits;
-
-    }
+    document.getElementById(
+        "precision-score"
+    ).textContent =
+        `${precisionHits} / 5`;
 
 
     if (precisionHits >= 5) {
 
-        precisionHits = 0;
+        if (ganarPuntos("precision", 50)) {
 
+            alert(
+                "🎯 ¡RETO COMPLETADO!\n\n" +
+                "+50 puntos"
+            );
 
-        ganarPuntos(
-            50,
-            "Precision Challenge"
-        );
+            cerrarJuego();
+        }
 
         return;
     }
 
 
-    moverObjetivo();
+    moverTarget();
 
 }
 
 
-/* =========================================
-   🤝 TEAM CHALLENGE
-========================================= */
+/* =========================
+   TEAM CHALLENGE
+========================= */
+
+let teamRound = 0;
+
+const teamQuestions = [
+
+    {
+        question:
+            "Un cliente está indeciso. ¿Qué debe hacer el vendedor?",
+
+        answers: [
+            "Escuchar sus necesidades",
+            "Ignorarlo",
+            "Presionarlo"
+        ],
+
+        correct: 0
+    },
+
+
+    {
+        question:
+            "¿Cuál ayuda a construir confianza con un cliente?",
+
+        answers: [
+            "Mentir",
+            "Honestidad",
+            "Ocultar información"
+        ],
+
+        correct: 1
+    },
+
+
+    {
+        question:
+            "¿Cuál de estos es un elemento del marketing mix?",
+
+        answers: [
+            "Producto",
+            "Suerte",
+            "Velocidad"
+        ],
+
+        correct: 0
+    },
+
+
+    {
+        question:
+            "¿Qué es importante en el trabajo en equipo?",
+
+        answers: [
+            "No escuchar",
+            "Competir contra tu propio equipo",
+            "Comunicación"
+        ],
+
+        correct: 2
+    }
+
+];
+
 
 function teamChallenge() {
 
+    if (estacionCompletada("team")) {
 
-    if (estacionCompletada(
-        "Team Challenge"
-    )) {
-
-        alert(
-            "⚠️ Ya completaste este reto."
-        );
+        alert("👥 Ya completaste el Team Challenge.");
 
         return;
     }
 
 
-    crearVentana(
+    teamRound = 0;
 
-        "🤝 Team Challenge",
 
-        `
+    crearVentana(`
 
-        <p>
-            Trabajen juntos para descubrir
-            la secuencia correcta.
-        </p>
+        <div class="game-header">
 
-        <p>
-            Selecciona los números en orden:
-        </p>
+            <span>TEAM CHALLENGE</span>
 
-        <div class="team-buttons">
-
-            <button onclick="teamAnswer(1)">
-                1
-            </button>
-
-            <button onclick="teamAnswer(2)">
-                2
-            </button>
-
-            <button onclick="teamAnswer(3)">
-                3
-            </button>
-
-            <button onclick="teamAnswer(4)">
-                4
-            </button>
+            <span id="team-round">
+                Ronda 1 / 4
+            </span>
 
         </div>
 
-        <p>
-            Secuencia:
-            <strong id="team-sequence">
-                -
-            </strong>
-        </p>
 
-        `
+        <div class="game-content">
 
-    );
+            <div class="game-icon">
+                👥
+            </div>
+
+            <p class="team-instruction">
+                📱 Pasen el celular entre los integrantes
+                y decidan la respuesta juntos.
+            </p>
 
 
-    window.teamSequence =
-        [2, 4, 1, 3];
+            <h2 id="team-question"></h2>
 
-    window.teamProgress = [];
+            <div id="team-options"></div>
+
+        </div>
+
+    `);
+
+
+    mostrarPreguntaTeam();
 
 }
 
 
-/* =========================================
-   RESPUESTA TEAM
-========================================= */
+function mostrarPreguntaTeam() {
 
-function teamAnswer(numero) {
-
-
-    const posicion =
-        window.teamProgress.length;
+    const pregunta =
+        teamQuestions[teamRound];
 
 
-    if (
-        numero !==
-        window.teamSequence[posicion]
-    ) {
+    document.getElementById(
+        "team-question"
+    ).textContent =
+        pregunta.question;
+
+
+    document.getElementById(
+        "team-round"
+    ).textContent =
+        `Ronda ${teamRound + 1} / 4`;
+
+
+    const options =
+        document.getElementById("team-options");
+
+
+    options.innerHTML = "";
+
+
+    pregunta.answers.forEach((answer, index) => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.textContent = answer;
+
+
+        button.onclick = () =>
+            responderTeam(index);
+
+
+        options.appendChild(button);
+
+    });
+
+}
+
+
+function responderTeam(respuesta) {
+
+    const pregunta =
+        teamQuestions[teamRound];
+
+
+    if (respuesta !== pregunta.correct) {
 
         alert(
-            "❌ Secuencia incorrecta.\n\n" +
-            "Comiencen nuevamente."
+            "❌ Incorrecto.\n\n" +
+            "Hablen como equipo y vuelvan a intentarlo."
         );
-
-
-        window.teamProgress = [];
-
-
-        document.getElementById(
-            "team-sequence"
-        ).textContent = "-";
-
 
         return;
     }
 
 
-    window.teamProgress.push(numero);
+    teamRound++;
 
 
-    document.getElementById(
-        "team-sequence"
-    ).textContent =
-        window.teamProgress.join(" → ");
+    if (teamRound >= teamQuestions.length) {
 
+        if (ganarPuntos("team", 100)) {
 
-    if (
-        window.teamProgress.length ===
-        window.teamSequence.length
-    ) {
+            alert(
+                "🏆 ¡TEAM CHALLENGE COMPLETADO!\n\n" +
+                "+100 puntos"
+            );
 
-        ganarPuntos(
-            100,
-            "Team Challenge"
-        );
+            cerrarJuego();
+        }
 
+        return;
     }
+
+
+    mostrarPreguntaTeam();
 
 }
 
 
-/* =========================================
-   🎨 ESTILOS DE LOS JUEGOS
-========================================= */
+/* =========================
+   RECOMPENSAS
+========================= */
+
+function canjearPremio(costo, premio) {
+
+    if (puntos < costo) {
+
+        alert(
+            `❌ No tienes suficientes puntos.\n\n` +
+            `Necesitas ${costo} puntos.\n` +
+            `Tienes ${puntos}.`
+        );
+
+        return;
+    }
+
+
+    const confirmar = confirm(
+        `¿Quieres canjear "${premio}" por ${costo} puntos?`
+    );
+
+
+    if (!confirmar) return;
+
+
+    puntos -= costo;
+
+
+    guardarProgreso();
+
+    actualizarPuntos();
+
+
+    alert(
+        `🎉 ¡Premio canjeado!\n\n` +
+        `${premio}\n` +
+        `Puntos restantes: ${puntos}`
+    );
+
+}
+
+
+/* =========================
+   ESTILOS DE LOS JUEGOS
+========================= */
 
 function agregarEstilosJuego() {
 
-
-    if (
-        document.getElementById(
-            "game-styles"
-        )
-    ) return;
+    if (document.getElementById("game-styles")) return;
 
 
-    const estilos =
+    const style =
         document.createElement("style");
 
 
-    estilos.id = "game-styles";
+    style.id = "game-styles";
 
 
-    estilos.textContent = `
+    style.textContent = `
 
-        .game-overlay {
+        #game-modal {
 
             position: fixed;
 
             inset: 0;
 
-            background:
-                rgba(0, 25, 50, 0.82);
+            background: rgba(0, 25, 50, 0.85);
 
             display: flex;
 
-            justify-content: center;
-
             align-items: center;
+
+            justify-content: center;
 
             padding: 20px;
 
@@ -811,11 +920,11 @@ function agregarEstilosJuego() {
 
         .game-box {
 
+            position: relative;
+
             background: white;
 
-            width: 100%;
-
-            max-width: 600px;
+            width: min(600px, 100%);
 
             max-height: 90vh;
 
@@ -823,35 +932,9 @@ function agregarEstilosJuego() {
 
             border-radius: 20px;
 
-            padding: 35px;
+            padding: 30px;
 
-            text-align: center;
-
-            position: relative;
-
-            box-shadow:
-                0 20px 60px
-                rgba(0,0,0,0.3);
-
-        }
-
-
-        .game-box h2 {
-
-            color: #003b70;
-
-            font-size: 32px;
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .game-box p {
-
-            color: #627d98;
-
-            margin-bottom: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
 
         }
 
@@ -864,115 +947,171 @@ function agregarEstilosJuego() {
 
             top: 15px;
 
-            border: none;
+            background: none;
 
-            background: transparent;
-
-            font-size: 24px;
-
-            cursor: pointer;
+            font-size: 25px;
 
             color: #003b70;
 
         }
 
 
-        .game-box input {
+        .game-header {
 
-            width: 100%;
+            display: flex;
 
-            padding: 13px;
+            justify-content: space-between;
 
-            border:
-                2px solid #d7eaf5;
+            align-items: center;
 
-            border-radius: 8px;
+            font-weight: 800;
 
-            margin-bottom: 15px;
+            color: #003b70;
 
-            font-size: 16px;
+            border-bottom: 2px solid #eef9fd;
+
+            padding-bottom: 15px;
+
+            margin-bottom: 25px;
 
         }
 
 
-        .game-box button:not(.close-game) {
+        #escape-timer {
 
             background: #003b70;
 
             color: white;
 
-            border: none;
+            padding: 8px 15px;
 
-            padding: 12px 20px;
-
-            border-radius: 8px;
-
-            margin: 5px;
-
-            cursor: pointer;
-
-            font-weight: bold;
+            border-radius: 20px;
 
         }
 
 
-        .game-box button:hover {
+        .game-content {
 
-            background: #5bc0eb;
-
-            color: #082032;
+            text-align: center;
 
         }
 
 
-        #timer {
+        .game-icon {
 
             font-size: 55px;
 
-            font-weight: 900;
-
-            color: #0077b6;
-
-            margin: 15px;
+            margin-bottom: 10px;
 
         }
 
 
-        .question {
+        .game-content h2 {
 
-            display: flex;
+            color: #003b70;
 
-            flex-direction: column;
-
-            gap: 10px;
+            margin-bottom: 15px;
 
         }
 
 
-        .question button {
+        .game-content p {
+
+            color: #667785;
+
+            line-height: 1.5;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .answer-buttons,
+
+        #team-options,
+
+        #trivia-options {
+
+            display: grid;
+
+            gap: 12px;
+
+        }
+
+
+        .answer-buttons button,
+
+        #team-options button,
+
+        #trivia-options button,
+
+        #escape-puzzle > button {
+
+            background: #003b70;
+
+            color: white;
+
+            padding: 14px;
+
+            border-radius: 8px;
 
             width: 100%;
 
-            margin: 0 !important;
+        }
+
+
+        .answer-buttons button:hover,
+
+        #team-options button:hover,
+
+        #trivia-options button:hover {
+
+            background: #0077b6;
 
         }
 
 
-        #precision-game {
+        #escape-code {
 
             width: 100%;
 
-            height: 280px;
+            padding: 15px;
 
-            background: #eaf6fc;
+            border: 2px solid #cbdce8;
 
-            border-radius: 15px;
+            border-radius: 8px;
+
+            margin-bottom: 12px;
+
+            font-size: 20px;
+
+            text-align: center;
+
+        }
+
+
+        .hint {
+
+            font-size: 13px;
+
+            margin-top: 15px;
+
+        }
+
+
+        #precision-area {
 
             position: relative;
 
-            overflow: hidden;
+            height: 300px;
 
-            margin: 20px 0;
+            margin-top: 20px;
+
+            border-radius: 15px;
+
+            background: #eef9fd;
+
+            overflow: hidden;
 
         }
 
@@ -981,56 +1120,38 @@ function agregarEstilosJuego() {
 
             position: absolute;
 
-            width: 60px;
+            width: 55px;
 
-            height: 60px;
+            height: 55px;
 
             border-radius: 50%;
 
-            padding: 0 !important;
+            border: none;
 
-            background: #5bc0eb !important;
+            background: #f4c542;
 
             font-size: 25px;
 
-        }
-
-
-        .team-buttons {
-
-            display: flex;
-
-            justify-content: center;
-
-            flex-wrap: wrap;
-
-            margin: 20px 0;
+            cursor: pointer;
 
         }
 
 
-        .team-buttons button {
+        .team-instruction {
 
-            width: 60px;
+            background: #eef9fd;
 
-            height: 60px;
+            padding: 15px;
 
-            border-radius: 50% !important;
+            border-radius: 10px;
 
-            font-size: 20px;
-
-        }
-
-
-        #team-sequence {
-
-            color: #0077b6;
+            font-weight: 600;
 
         }
 
     `;
 
 
-    document.head.appendChild(estilos);
+    document.head.appendChild(style);
 
 }
