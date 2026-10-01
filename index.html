@@ -3,334 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>DECA: Rise to Challenge</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <!-- =========================
-         NAVBAR
-    ========================== -->
-    <header>
-        <div class="logo-container">
-            <img src="images/deca-logo.png" alt="DECA Logo">
-        </div>
-        <nav>
-            <a href="#inicio">Inicio</a>
-            <a href="#como-funciona">¿Cómo funciona?</a>
-            <a href="#estaciones">Estaciones</a>
-            <a href="#recompensas">Recompensas</a>
-        </nav>
-    </header>
-    <!-- =========================
-         HERO
-    ========================== -->
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <p class="small-title">
-                DECA PRESENTS
-            </p>
-            <h1>
-                RISE TO<br>
-                <span>CHALLENGE</span>
-            </h1>
-            <p class="hero-description">
-                Completa los retos, demuestra tus habilidades,
-                gana puntos y canjéalos por recompensas.
-            </p>
-            <button onclick="mostrarEstaciones()">
-                🚀 COMENZAR
-            </button>
-        </div>
-    </section>
-    <!-- =========================
-         PUNTOS
-    ========================== -->
-    <section class="points-section">
-        <div class="points-card">
-            <p>MIS PUNTOS</p>
-            <h2 id="points">0</h2>
-            <span>⭐ puntos acumulados</span>
-        </div>
-    </section>
-    <!-- =========================
-         CÓMO FUNCIONA
-    ========================== -->
-    <section id="como-funciona" class="how-section">
-        <div class="section-title">
-            <p>GET READY</p>
-            <h2>¿Cómo funciona?</h2>
-        </div>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">
-                    01
-                </div>
-                <h3>Regístrate</h3>
-                <p>
-                    Crea tu perfil de participante
-                    para comenzar el challenge.
-                </p>
-            </div>
-            <div class="step">
-                <div class="step-number">
-                    02
-                </div>
-                <h3>Explora</h3>
-                <p>
-                    Visita las diferentes estaciones
-                    alrededor del parque.
-                </p>
-            </div>
-            <div class="step">
-                <div class="step-number">
-                    03
-                </div>
-                <h3>Desafíate</h3>
-                <p>
-                    Completa el minijuego de cada
-                    estación.
-                </p>
-            </div>
-            <div class="step">
-                <div class="step-number">
-                    04
-                </div>
-                <h3>Gana</h3>
-                <p>
-                    Acumula puntos y cámbialos
-                    por recompensas.
-                </p>
-            </div>
-        </div>
-    </section>
-    <!-- =========================
-         ESTACIONES
-    ========================== -->
-    <section id="estaciones" class="stations-section">
-        <div class="section-title">
-            <p>CHOOSE YOUR CHALLENGE</p>
-            <h2>🎮 Estaciones</h2>
-            <span>
-                Cada estación tiene un reto diferente.
-                ¿Estás listo?
-            </span>
-        </div>
-        <div class="station-container">
-            <!-- ESCAPE ROOM -->
-            <div class="station-card">
-                <div class="station-icon">
-                    🔐
-                </div>
-                <div class="station-info">
-                    <span class="station-number">
-                        STATION 01
-                    </span>
-                    <h3>
-                        Escape Room
-                    </h3>
-                    <p>
-                        Resuelve los acertijos y encuentra
-                        la salida antes de que se acabe
-                        el tiempo.
-                    </p>
-                    <div class="station-bottom">
-                        <strong>
-                            ⭐ 100 PTS
-                        </strong>
-                        <button onclick="iniciarJuego('escape')">
-                            JUGAR
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- TRIVIA -->
-            <div class="station-card">
-                <div class="station-icon">
-                    🧠
-                </div>
-                <div class="station-info">
-                    <span class="station-number">
-                        STATION 02
-                    </span>
-                    <h3>
-                        DECA Trivia
-                    </h3>
-                    <p>
-                        Responde preguntas y demuestra
-                        cuánto sabes antes de que termine
-                        el tiempo.
-                    </p>
-                    <div class="station-bottom">
-                        <strong>
-                            ⭐ 75 PTS
-                        </strong>
-                        <button onclick="iniciarJuego('trivia')">
-                            JUGAR
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- PRECISION -->
-            <div class="station-card">
-                <div class="station-icon">
-                    🎯
-                </div>
-                <div class="station-info">
-                    <span class="station-number">
-                        STATION 03
-                    </span>
-                    <h3>
-                        Precision Challenge
-                    </h3>
-                    <p>
-                        Pon a prueba tu precisión y
-                        consigue la mayor cantidad
-                        de objetivos.
-                    </p>
-                    <div class="station-bottom">
-                        <strong>
-                            ⭐ 50 PTS
-                        </strong>
-                        <button onclick="iniciarJuego('precision')">
-                            JUGAR
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- TEAM -->
-            <div class="station-card">
-                <div class="station-icon">
-                    🤝
-                </div>
-                <div class="station-info">
-                    <span class="station-number">
-                        STATION 04
-                    </span>
-                    <h3>
-                        Team Challenge
-                    </h3>
-                    <p>
-                        Trabaja junto a tu equipo y
-                        completa el reto correctamente.
-                    </p>
-                    <div class="station-bottom">
-                        <strong>
-                            ⭐ 100 PTS
-                        </strong>
-                        <button onclick="iniciarJuego('team')">
-                            JUGAR
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- =========================
-         RECOMPENSAS
-    ========================== -->
-    <section id="recompensas" class="rewards-section">
-        <div class="section-title">
-            <p>EARN & REDEEM</p>
-            <h2>🎁 Recompensas</h2>
-            <span>
-                Usa tus puntos para obtener premios
-                durante la actividad.
-            </span>
-        </div>
-        <div class="rewards-container">
-            <!-- 100 PUNTOS -->
-            <div class="reward-card">
-                <div class="reward-icon">
-                    🍬
-                </div>
-                <h3>
-                    Starter Reward
-                </h3>
-                <p>
-                    Un pequeño premio sorpresa.
-                </p>
-                <strong>
-                    100 ⭐
-                </strong>
-                <button onclick="canjearPremio(100, 'Starter Reward')">
-                    CANJEAR
-                </button>
-            </div>
-            <!-- 200 PUNTOS -->
-            <div class="reward-card featured">
-                <div class="featured-label">
-                    POPULAR
-                </div>
-                <div class="reward-icon">
-                    🎁
-                </div>
-                <h3>
-                    Challenge Reward
-                </h3>
-                <p>
-                    Un premio especial por superar
-                    varios retos.
-                </p>
-                <strong>
-                    200 ⭐
-                </strong>
-                <button onclick="canjearPremio(200, 'Challenge Reward')">
-                    CANJEAR
-                </button>
-            </div>
-            <!-- 300 PUNTOS -->
-            <div class="reward-card">
-                <div class="reward-icon">
-                    🏆
-                </div>
-                <h3>
-                    Grand Reward
-                </h3>
-                <p>
-                    El gran premio para los participantes
-                    que acumulen más puntos.
-                </p>
-                <strong>
-                    300 ⭐
-                </strong>
-                <button onclick="canjearPremio(300, 'Grand Reward')">
-                    CANJEAR
-                </button>
-            </div>
-        </div>
-    </section>
-    <!-- =========================
-         CTA FINAL
-    ========================== -->
-    <section class="final-section">
-        <div>
-            <p>
-                YOUR CHALLENGE STARTS NOW
-            </p>
-            <h2>
-                ¿Estás listo para<br>
-                <span>RISE TO CHALLENGE?</span>
-            </h2>
-            <button onclick="mostrarEstaciones()">
-                VER ESTACIONES →
-            </button>
-        </div>
-    </section>
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer>
-        <div class="footer-logo">
-            DECA
-        </div>
+
+<header class="navbar">
+
+    <div class="logo-container">
+        <img src="images/deca-logo.png" alt="DECA Logo" class="deca-logo">
+        <span>RISE TO CHALLENGE</span>
+    </div>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#como-funciona">¿Cómo funciona?</a>
+        <a href="#estaciones">Estaciones</a>
+        <a href="#recompensas">Recompensas</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+<section id="inicio" class="hero">
+
+    <div class="hero-content">
+
+        <p class="mini-title">DECA EXPERIENCE</p>
+
+        <h1>RISE TO<br><span>CHALLENGE</span></h1>
+
         <p>
-            Rise to Challenge • Campaign of Service
+            Challenge yourself. Work together. Earn points.
         </p>
-        <p class="copyright">
-            © 2026 DECA Challenge
-        </p>
-    </footer>
-    <!-- JAVASCRIPT -->
-    <script src="script.js"></script>
+
+        <button onclick="document.getElementById('estaciones').scrollIntoView()">
+            COMENZAR
+        </button>
+
+    </div>
+
+</section>
+
+
+<section class="points-section">
+
+    <div class="points-card">
+
+        <p>TUS PUNTOS</p>
+
+        <h2 id="points">0</h2>
+
+        <span>POINTS</span>
+
+    </div>
+
+</section>
+
+
+<section id="como-funciona" class="section">
+
+    <div class="section-title">
+
+        <p>THE EXPERIENCE</p>
+
+        <h2>¿Cómo funciona?</h2>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+            <span>01</span>
+            <h3>Regístrate</h3>
+            <p>Participa en la experiencia DECA.</p>
+        </div>
+
+        <div class="step">
+            <span>02</span>
+            <h3>Explora</h3>
+            <p>Visita las diferentes estaciones.</p>
+        </div>
+
+        <div class="step">
+            <span>03</span>
+            <h3>Desafíate</h3>
+            <p>Completa los retos y demuestra tus habilidades.</p>
+        </div>
+
+        <div class="step">
+            <span>04</span>
+            <h3>Gana</h3>
+            <p>Acumula puntos y canjéalos por premios.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="estaciones" class="section stations-section">
+
+    <div class="section-title">
+
+        <p>CHOOSE YOUR CHALLENGE</p>
+
+        <h2>Estaciones</h2>
+
+    </div>
+
+
+    <div class="stations">
+
+
+        <div class="station-card">
+
+            <div class="station-number">01</div>
+
+            <div class="icon">🔐</div>
+
+            <h3>Escape Room</h3>
+
+            <p>
+                Resuelve las pistas, desbloquea los códigos
+                y encuentra la salida antes de que se acabe el tiempo.
+            </p>
+
+            <strong>+100 POINTS</strong>
+
+            <button onclick="iniciarJuego('escape')">
+                JUGAR
+            </button>
+
+        </div>
+
+
+
+        <div class="station-card">
+
+            <div class="station-number">02</div>
+
+            <div class="icon">🧠</div>
+
+            <h3>DECA Trivia</h3>
+
+            <p>
+                Pon a prueba tus conocimientos sobre DECA,
+                liderazgo y mercadeo.
+            </p>
+
+            <strong>+75 POINTS</strong>
+
+            <button onclick="iniciarJuego('trivia')">
+                JUGAR
+            </button>
+
+        </div>
+
+
+
+        <div class="station-card">
+
+            <div class="station-number">03</div>
+
+            <div class="icon">🎯</div>
+
+            <h3>Precision Challenge</h3>
+
+            <p>
+                Demuestra tu rapidez y precisión alcanzando
+                los objetivos.
+            </p>
+
+            <strong>+50 POINTS</strong>
+
+            <button onclick="iniciarJuego('precision')">
+                JUGAR
+            </button>
+
+        </div>
+
+
+
+        <div class="station-card team-card">
+
+            <div class="station-number">04</div>
+
+            <div class="icon">👥</div>
+
+            <h3>Team Challenge</h3>
+
+            <p>
+                Reúnan a su equipo y completen juntos
+                diferentes retos desde un solo dispositivo.
+            </p>
+
+            <strong>+100 POINTS</strong>
+
+            <button onclick="iniciarJuego('team')">
+                JUGAR EN EQUIPO
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="recompensas" class="section rewards-section">
+
+    <div class="section-title">
+
+        <p>EARN & REDEEM</p>
+
+        <h2>Recompensas</h2>
+
+    </div>
+
+
+    <div class="rewards">
+
+
+        <div class="reward-card">
+
+            <div class="reward-icon">⭐</div>
+
+            <h3>Starter Reward</h3>
+
+            <p>100 puntos</p>
+
+            <button onclick="canjearPremio(100, 'Starter Reward')">
+                CANJEAR
+            </button>
+
+        </div>
+
+
+        <div class="reward-card">
+
+            <div class="reward-icon">🏆</div>
+
+            <h3>Challenge Reward</h3>
+
+            <p>200 puntos</p>
+
+            <button onclick="canjearPremio(200, 'Challenge Reward')">
+                CANJEAR
+            </button>
+
+        </div>
+
+
+        <div class="reward-card grand">
+
+            <div class="reward-icon">👑</div>
+
+            <h3>Grand Reward</h3>
+
+            <p>300 puntos</p>
+
+            <button onclick="canjearPremio(300, 'Grand Reward')">
+                CANJEAR
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="final-section">
+
+    <p>READY?</p>
+
+    <h2>RISE TO<br>THE CHALLENGE.</h2>
+
+    <button onclick="document.getElementById('estaciones').scrollIntoView()">
+        START NOW
+    </button>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-logo">
+
+        <img src="images/deca-logo.png" alt="DECA">
+
+        <span>RISE TO CHALLENGE</span>
+
+    </div>
+
+    <p>DECA • Challenge Experience</p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
 </body>
 </html>
