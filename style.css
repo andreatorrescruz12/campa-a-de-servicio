@@ -1,6 +1,7 @@
-/* =========================
-   CONFIGURACIÓN GENERAL
-========================= */
+/* =========================================
+   DECA: RISE TO CHALLENGE
+   ESTILOS PRINCIPALES
+========================================= */
 
 * {
     margin: 0;
@@ -14,362 +15,864 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #222;
+    background: #f4f8fc;
+    color: #102a43;
     line-height: 1.6;
 }
 
 
-/* =========================
-   ENCABEZADO
-========================= */
+/* =========================================
+   COLORES
+========================================= */
+
+:root {
+    --blue-dark: #003b70;
+    --blue: #0077b6;
+    --blue-light: #5bc0eb;
+    --blue-soft: #eaf6fc;
+    --white: #ffffff;
+    --gold: #f4c542;
+    --dark: #082032;
+    --gray: #627d98;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
 
 header {
-    background: #111;
-    color: white;
-    padding: 15px 7%;
+    width: 100%;
+    background: var(--white);
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    padding: 14px 7%;
+
     position: sticky;
     top: 0;
     z-index: 1000;
+
+    box-shadow: 0 3px 15px rgba(0, 59, 112, 0.12);
 }
 
-.logo {
-    font-size: 30px;
-    font-weight: 900;
-    color: #f5c400;
-    letter-spacing: 2px;
+.logo-container img {
+    width: 85px;
+    height: auto;
+    display: block;
 }
 
 nav {
     display: flex;
-    gap: 25px;
+    align-items: center;
+    gap: 28px;
 }
 
 nav a {
-    color: white;
     text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
+    color: var(--blue-dark);
+    font-weight: 700;
+    font-size: 15px;
+
+    transition: 0.25s;
 }
 
 nav a:hover {
-    color: #f5c400;
+    color: var(--blue-light);
 }
 
 
-/* =========================
-   SECCIÓN PRINCIPAL
-========================= */
+/* =========================================
+   HERO
+========================================= */
 
 .hero {
-    min-height: 500px;
-    background: linear-gradient(135deg, #111 0%, #292929 100%);
+    min-height: 650px;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(91, 192, 235, 0.25),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #002b52,
+            #004f91
+        );
+
     color: white;
 
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 
     text-align: center;
-    padding: 60px 20px;
+
+    padding: 80px 20px;
+
+    position: relative;
+    overflow: hidden;
 }
 
-.hero h1 {
-    font-size: 55px;
-    color: #f5c400;
+.hero::before {
+    content: "";
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    border: 2px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+
+    right: -100px;
+    top: -100px;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border: 2px solid rgba(255,255,255,0.05);
+    border-radius: 50%;
+
+    left: -250px;
+    bottom: -300px;
+}
+
+.hero-content {
+    max-width: 850px;
+    position: relative;
+    z-index: 2;
+}
+
+.small-title {
+    letter-spacing: 5px;
+    font-weight: 800;
+    font-size: 14px;
+
+    color: var(--blue-light);
+
     margin-bottom: 15px;
 }
 
-.hero p {
-    max-width: 600px;
-    font-size: 20px;
+.hero h1 {
+    font-size: clamp(55px, 9vw, 105px);
+
+    line-height: 0.9;
+
+    font-weight: 900;
+
+    letter-spacing: -3px;
+
     margin-bottom: 30px;
 }
 
+.hero h1 span {
+    color: var(--blue-light);
+}
+
+.hero-description {
+    max-width: 650px;
+
+    margin: auto auto 35px;
+
+    font-size: 19px;
+
+    color: #e6f5ff;
+}
+
 .hero button {
-    background: #f5c400;
-    color: #111;
     border: none;
-    padding: 14px 30px;
-    border-radius: 30px;
-    font-size: 18px;
-    font-weight: bold;
+
+    background: var(--blue-light);
+    color: var(--dark);
+
+    padding: 15px 35px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-weight: 900;
+
     cursor: pointer;
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .hero button:hover {
-    transform: scale(1.08);
-    background: #ffd92e;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(91,192,235,0.35);
 }
 
 
-/* =========================
-   SECCIÓN DE PUNTOS
-========================= */
+/* =========================================
+   PUNTOS
+========================================= */
 
 .points-section {
-    text-align: center;
-    padding: 60px 20px;
-}
+    background: var(--white);
 
-.points-section h2 {
-    font-size: 35px;
-    margin-bottom: 25px;
+    padding: 45px 20px;
+
+    display: flex;
+    justify-content: center;
+
+    position: relative;
+
+    z-index: 5;
 }
 
 .points-card {
-    background: white;
-    max-width: 300px;
-    margin: auto;
+    width: 280px;
 
-    padding: 30px;
-    border-radius: 20px;
+    text-align: center;
 
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    background: var(--white);
 
-    border-top: 7px solid #f5c400;
-}
+    padding: 25px;
 
-.points-card span {
-    display: block;
-    font-size: 60px;
-    font-weight: 900;
-    color: #f5c400;
+    border-radius: 15px;
+
+    box-shadow: 0 8px 30px rgba(0, 59, 112, 0.15);
+
+    border-top: 5px solid var(--blue-light);
 }
 
 .points-card p {
-    font-weight: bold;
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    font-weight: 900;
+
+    color: var(--gray);
+}
+
+.points-card h2 {
+    font-size: 55px;
+
+    line-height: 1;
+
+    margin: 8px 0;
+
+    color: var(--blue-dark);
+}
+
+.points-card span {
+    color: var(--blue);
+    font-weight: 700;
 }
 
 
-/* =========================
-   ESTACIONES
-========================= */
+/* =========================================
+   TÍTULOS DE SECCIÓN
+========================================= */
 
-.stations {
-    padding: 70px 7%;
-    background: white;
+.section-title {
     text-align: center;
+
+    max-width: 700px;
+
+    margin: auto;
 }
 
-.stations h2 {
-    font-size: 38px;
+.section-title p {
+    color: var(--blue);
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 8px;
+}
+
+.section-title h2 {
+    font-size: 42px;
+
+    color: var(--blue-dark);
+
     margin-bottom: 10px;
 }
 
-.station-container {
-    margin-top: 40px;
+.section-title span {
+    color: var(--gray);
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   CÓMO FUNCIONA
+========================================= */
+
+.how-section {
+    padding: 90px 7%;
+
+    background: var(--blue-soft);
+}
+
+.steps {
+    max-width: 1100px;
+
+    margin: 55px auto 0;
 
     display: grid;
+
     grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.step {
+    background: var(--white);
+
+    padding: 30px 22px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 20px rgba(0, 59, 112, 0.08);
+
+    transition: 0.25s;
+}
+
+.step:hover {
+    transform: translateY(-7px);
+}
+
+.step-number {
+    color: var(--blue-light);
+
+    font-size: 32px;
+
+    font-weight: 900;
+
+    margin-bottom: 15px;
+}
+
+.step h3 {
+    color: var(--blue-dark);
+
+    margin-bottom: 10px;
+
+    font-size: 21px;
+}
+
+.step p {
+    color: var(--gray);
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   ESTACIONES
+========================================= */
+
+.stations-section {
+    padding: 100px 7%;
+
+    background: var(--white);
+}
+
+.station-container {
+    max-width: 1150px;
+
+    margin: 55px auto 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
     gap: 25px;
 }
 
 .station-card {
-    background: #f7f7f7;
-    padding: 30px 20px;
+    background: var(--blue-soft);
 
-    border-radius: 20px;
+    border: 1px solid #d7eaf5;
 
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+
+    padding: 28px;
+
+    display: flex;
+
+    gap: 22px;
 
     transition: 0.3s;
 }
 
 .station-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-6px);
+
+    box-shadow: 0 12px 30px rgba(0, 59, 112, 0.13);
+
+    border-color: var(--blue-light);
 }
 
-.station-card h3 {
-    font-size: 22px;
-    margin-bottom: 15px;
+.station-icon {
+    min-width: 75px;
+    height: 75px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: var(--white);
+
+    border-radius: 15px;
+
+    font-size: 35px;
+
+    box-shadow: 0 5px 15px rgba(0, 59, 112, 0.08);
 }
 
-.station-card p {
-    min-height: 80px;
-    color: #555;
+.station-info {
+    flex: 1;
 }
 
-.station-card strong {
-    display: block;
-    color: #d49f00;
-    font-size: 20px;
-    margin: 15px 0;
+.station-number {
+    font-size: 11px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    color: var(--blue);
 }
 
-.station-card button,
-.prize-card button {
-    border: none;
-    background: #111;
-    color: white;
+.station-info h3 {
+    color: var(--blue-dark);
 
-    padding: 12px 22px;
-    border-radius: 25px;
+    font-size: 25px;
 
-    font-weight: bold;
-    cursor: pointer;
-
-    transition: 0.3s;
+    margin: 3px 0 8px;
 }
 
-.station-card button:hover,
-.prize-card button:hover {
-    background: #f5c400;
-    color: #111;
-}
+.station-info p {
+    color: var(--gray);
 
+    font-size: 14px;
 
-/* =========================
-   PREMIOS
-========================= */
-
-.prizes {
-    padding: 70px 7%;
-    text-align: center;
-    background: #f5f5f5;
-}
-
-.prizes h2 {
-    font-size: 38px;
-    margin-bottom: 10px;
-}
-
-.prize-container {
-    margin-top: 40px;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.prize-card {
-    background: white;
-
-    padding: 30px 20px;
-
-    border-radius: 20px;
-
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-
-    transition: 0.3s;
-}
-
-.prize-card:hover {
-    transform: translateY(-8px);
-}
-
-.prize-card h3 {
-    font-size: 23px;
-    margin-bottom: 15px;
-}
-
-.prize-card p {
-    color: #555;
-    margin-bottom: 15px;
-}
-
-.prize-card strong {
-    display: block;
-    color: #d49f00;
-    font-size: 21px;
     margin-bottom: 20px;
 }
 
+.station-bottom {
+    display: flex;
 
-/* =========================
-   MENSAJE FINAL
-========================= */
+    justify-content: space-between;
 
-.message {
-    background: #111;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.station-bottom strong {
+    color: var(--blue);
+
+    font-size: 16px;
+}
+
+.station-bottom button {
+    border: none;
+
+    background: var(--blue-dark);
+
     color: white;
+
+    padding: 10px 18px;
+
+    border-radius: 7px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.station-bottom button:hover {
+    background: var(--blue-light);
+
+    color: var(--dark);
+}
+
+
+/* =========================================
+   RECOMPENSAS
+========================================= */
+
+.rewards-section {
+    padding: 100px 7%;
+
+    background: var(--blue-soft);
+}
+
+.rewards-container {
+    max-width: 1000px;
+
+    margin: 55px auto 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.reward-card {
+    background: var(--white);
+
+    padding: 35px 25px;
+
     text-align: center;
 
-    padding: 70px 20px;
+    border-radius: 16px;
+
+    position: relative;
+
+    box-shadow: 0 7px 25px rgba(0, 59, 112, 0.1);
+
+    transition: 0.3s;
 }
 
-.message h2 {
-    color: #f5c400;
-    font-size: 35px;
-    margin-bottom: 10px;
+.reward-card:hover {
+    transform: translateY(-7px);
 }
 
-.message p {
-    font-size: 18px;
+.reward-card.featured {
+    border: 3px solid var(--blue-light);
+
+    transform: scale(1.03);
+}
+
+.reward-card.featured:hover {
+    transform: scale(1.03) translateY(-7px);
+}
+
+.featured-label {
+    position: absolute;
+
+    top: -12px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: var(--blue);
+
+    color: white;
+
+    padding: 5px 15px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+.reward-icon {
+    font-size: 50px;
+
+    margin-bottom: 15px;
+}
+
+.reward-card h3 {
+    color: var(--blue-dark);
+
+    font-size: 21px;
+
+    margin-bottom: 8px;
+}
+
+.reward-card p {
+    color: var(--gray);
+
+    font-size: 14px;
+
+    min-height: 45px;
+}
+
+.reward-card strong {
+    display: block;
+
+    color: var(--blue);
+
+    font-size: 23px;
+
+    margin: 18px 0;
+}
+
+.reward-card button {
+    border: none;
+
+    background: var(--blue-dark);
+
+    color: white;
+
+    padding: 12px 25px;
+
+    border-radius: 7px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.reward-card button:hover {
+    background: var(--blue-light);
+
+    color: var(--dark);
 }
 
 
-/* =========================
+/* =========================================
+   SECCIÓN FINAL
+========================================= */
+
+.final-section {
+    padding: 100px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #002b52,
+            #006aa6
+        );
+
+    color: white;
+
+    text-align: center;
+}
+
+.final-section p {
+    color: var(--blue-light);
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 15px;
+}
+
+.final-section h2 {
+    font-size: clamp(35px, 6vw, 65px);
+
+    line-height: 1.05;
+
+    margin-bottom: 30px;
+}
+
+.final-section h2 span {
+    color: var(--blue-light);
+}
+
+.final-section button {
+    background: var(--white);
+
+    color: var(--blue-dark);
+
+    border: none;
+
+    padding: 14px 28px;
+
+    border-radius: 7px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.final-section button:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+
+/* =========================================
    FOOTER
-========================= */
+========================================= */
 
 footer {
-    background: #000;
-    color: #aaa;
+    background: #001b33;
+
+    color: #b8d4e6;
+
     text-align: center;
-    padding: 20px;
-    font-size: 14px;
+
+    padding: 35px 20px;
+}
+
+.footer-logo {
+    color: white;
+
+    font-size: 28px;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 5px;
+}
+
+footer p {
+    font-size: 13px;
+}
+
+footer .copyright {
+    margin-top: 10px;
+
+    opacity: 0.6;
+
+    font-size: 11px;
 }
 
 
-/* =========================
-   CELULARES
-========================= */
+/* =========================================
+   TABLETS
+========================================= */
 
 @media (max-width: 900px) {
 
-    .station-container {
+    nav {
+        gap: 15px;
+    }
+
+    nav a {
+        font-size: 13px;
+    }
+
+    .steps {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .prize-container {
+    .station-container {
         grid-template-columns: 1fr;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
     }
 
+    .rewards-container {
+        grid-template-columns: 1fr;
+
+        max-width: 500px;
+    }
+
+    .reward-card.featured {
+        transform: none;
+    }
+
+    .reward-card.featured:hover {
+        transform: translateY(-7px);
+    }
 }
 
+
+/* =========================================
+   CELULARES
+========================================= */
 
 @media (max-width: 600px) {
 
     header {
+        padding: 12px 5%;
+
         flex-direction: column;
-        gap: 10px;
+
+        gap: 12px;
+    }
+
+    .logo-container img {
+        width: 70px;
     }
 
     nav {
-        gap: 15px;
-        font-size: 14px;
+        width: 100%;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+
+        gap: 10px 18px;
+    }
+
+    nav a {
+        font-size: 12px;
     }
 
     .hero {
-        min-height: 450px;
+        min-height: 580px;
+
+        padding: 60px 20px;
     }
 
     .hero h1 {
-        font-size: 40px;
+        font-size: 55px;
+
+        letter-spacing: -2px;
     }
 
-    .hero p {
-        font-size: 17px;
+    .hero-description {
+        font-size: 16px;
     }
 
-    .station-container {
+    .section-title h2 {
+        font-size: 32px;
+    }
+
+    .how-section,
+    .stations-section,
+    .rewards-section {
+        padding: 70px 5%;
+    }
+
+    .steps {
         grid-template-columns: 1fr;
+
+        margin-top: 35px;
     }
 
-    .stations h2,
-    .prizes h2 {
-        font-size: 30px;
+    .station-card {
+        flex-direction: column;
+
+        padding: 25px;
     }
 
+    .station-icon {
+        width: 70px;
+    }
+
+    .station-bottom {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .station-bottom button {
+        width: 100%;
+    }
+
+    .rewards-container {
+        margin-top: 35px;
+    }
+
+    .final-section {
+        padding: 75px 20px;
+    }
 }
